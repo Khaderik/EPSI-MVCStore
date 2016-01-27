@@ -79,19 +79,6 @@ namespace MVCStoreApplication.Controllers
             ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", album.ArtistId);
             ViewBag.GenreId = new SelectList(db.Genres, "GenreId", "Name", album.GenreId);
             return View(album);
-
-            if (Request.Files.Count > 0)
-            {
-                HttpPostedFileBase file = Request.Files[0];
-                if (file.ContentLength > 0)
-                {
-                    string fileName = Path.GetFileName(file.FileName);
-                    // « /Files » est le répertoire des images des albums
-                    file.SaveAs(Path.Combine(Server.MapPath("/Files"), fileName));
-                    album.AlbumArtUrl = fileName;
-                }
-
-            }
         }
 
         // POST: Albums/Edit/5
@@ -101,6 +88,17 @@ namespace MVCStoreApplication.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "AlbumId,GenreId,ArtistId,Title,Price,AlbumArtUrl")] Album album)
         {
+            if (Request.Files.Count > 0)
+            {
+                HttpPostedFileBase file = Request.Files[0];
+                if (file.ContentLength > 0)
+                {
+                    string fileName = Path.GetFileName(file.FileName);
+                    // « /Files » est le répertoire des images des albums
+                    file.SaveAs(Path.Combine(Server.MapPath("/Views/Images/Albums"), fileName));
+                    album.AlbumArtUrl = fileName;
+                }
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(album).State = EntityState.Modified;
