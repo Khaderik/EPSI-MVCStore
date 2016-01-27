@@ -121,6 +121,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AlbumsController.cs" />
     <Compile Include="Controllers\ArtistsController.cs" />
+    <Compile Include="Controllers\CartsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Global.asax.cs">
@@ -166,6 +167,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\Site\Albums.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -197,6 +199,11 @@
     <Content Include="Views\Store\Details.cshtml" />
     <Content Include="Views\Store\Edit.cshtml" />
     <Content Include="Views\Store\Index.cshtml" />
+    <Content Include="Views\Carts\Create.cshtml" />
+    <Content Include="Views\Carts\Delete.cshtml" />
+    <Content Include="Views\Carts\Details.cshtml" />
+    <Content Include="Views\Carts\Edit.cshtml" />
+    <Content Include="Views\Carts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
