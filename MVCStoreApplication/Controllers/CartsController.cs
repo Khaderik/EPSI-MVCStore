@@ -17,7 +17,7 @@ namespace MVCStoreApplication.Controllers
         // GET: Carts
         public ActionResult Index()
         {
-            var carts = db.Carts.Include(c => c.Album);
+            var carts = db.Carts.Where(c => c.CartId.Equals("Khaderik"));
             return View(carts.ToList());
         }
 
@@ -36,7 +36,7 @@ namespace MVCStoreApplication.Controllers
             return View(cart);
         }
 
-        // GET: Carts/Create
+        // GET: Carts/tate
         public ActionResult Create()
         {
             ViewBag.AlbumId = new SelectList(db.Albums, "AlbumId", "Title");
@@ -116,6 +116,48 @@ namespace MVCStoreApplication.Controllers
         {
             Cart cart = db.Carts.Find(id);
             db.Carts.Remove(cart);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        // GET: Store/AddToCart/5
+        public ActionResult AddToCart(int id)
+        {
+            //Recherche de l'album
+            Album album = db.Albums.Find(id);
+            if (album == null)
+            {
+                return HttpNotFound();
+            }
+
+            //Récpération du panier correspondant à l'album à insérer et à mon CartId
+            Cart monPanier = db.Carts.Where(c => c.CartId.Equals("Khaderik") && c.AlbumId.Equals(id)).FirstOrDefault();
+            //Le panier correspondant à l'album existe déjà...
+            if (monPanier != null)
+            {
+                //...on incrémente le count.
+                monPanier.Count++;
+                db.Entry(monPanier).State = EntityState.Modified;
+            }
+            //Il n'exite pas...
+            else
+            {
+                //...on le crée
+                monPanier = new Cart();     
+                monPanier.CartId = "Khaderik";
+                monPanier.AlbumId = id;
+                monPanier.Count = 1;
+                monPanier.DateCreated = DateTime.Now;
+                db.Carts.Add(monPanier);
+            }
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        // GET: Carts/ClearAll
+        public ActionResult ClearAll()
+        {
+            List<Cart> MesPaniers = db.Carts.Where(c => c.CartId.Equals("Khaderik")).ToList();
+            MesPaniers.ForEach(p => db.Carts.Remove(p));
             db.SaveChanges();
             return RedirectToAction("Index");
         }
