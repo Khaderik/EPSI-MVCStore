@@ -95,7 +95,7 @@ namespace MVCStoreApplication.Controllers
                 {
                     string fileName = Path.GetFileName(file.FileName);
                     // « /Files » est le répertoire des images des albums
-                    file.SaveAs(Path.Combine(Server.MapPath("/Views/Images/Albums"), fileName));
+                    file.SaveAs(Path.Combine(Server.MapPath("/Content/Images"), fileName));
                     album.AlbumArtUrl = fileName;
                 }
             }

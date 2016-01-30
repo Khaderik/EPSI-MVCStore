@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MVCStoreApplication.Models;
+using System.IO;
 
 namespace MVCStoreApplication.Controllers
 {
@@ -18,6 +19,21 @@ namespace MVCStoreApplication.Controllers
         public ActionResult Index()
         {
             var albums = db.Albums.Include(a => a.Artist).Include(a => a.Genre);
+            foreach (Album album in albums)
+            {
+                if (!String.IsNullOrWhiteSpace(album.AlbumArtUrl))
+                {
+                    var pochette = Path.Combine(Server.MapPath("/Content/Images"), album.AlbumArtUrl);
+                    if (!System.IO.File.Exists(pochette))
+                    {
+                        album.AlbumArtUrl = "PH.png";
+                    }
+                }
+                else
+                {
+                    album.AlbumArtUrl = "PH.png";
+                }       
+            }
             return View(albums.ToList());
         }
 

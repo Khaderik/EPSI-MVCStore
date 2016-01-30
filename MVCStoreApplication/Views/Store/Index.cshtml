@@ -4,17 +4,17 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Liste des albums</h2>
 <ul id="album-list">
     @foreach (var album in Model)
     {
         <li>
             <a href="@Url.Action("Details", new { id = album.AlbumId })">
-                <img alt="pochette" src="/Files/@album.AlbumArtUrl" width="25" height="25" />
+                <img alt="pochette" src="~/Content/Images/@album.AlbumArtUrl" width="60" height="60" />
                 <span>@album.Title (@album.Artist.Name)</span>
             </a>
             <a href="@Url.Action("AddToCart", "Carts", new { id = album.AlbumId })">
-                <img alt="Ajouter au panier" src="~/Content/Images/ajouter.png" width="25" height="25" />
+                <i class="fa fa-cart-arrow-down fa-lg"></i>
             </a>
         </li>
     }
