@@ -9,10 +9,14 @@
 <p>
     @Html.ActionLink("Créer nouveau panier", "Create")
 </p>
+<div id="update-message" class="alert alert-info" style="display: none"></div>
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Album.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Album.Artist)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CartId)
@@ -26,28 +30,38 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Album.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CartId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Count)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateCreated)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RecordId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.RecordId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RecordId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr id="@item.RecordId">
+            <td id="titre">
+                @Html.DisplayFor(modelItem => item.Album.Title)
+            </td>
+            <td id="artist">
+                @Html.DisplayFor(modelItem => item.Album.Artist.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CartId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateCreated)
+            </td>
+            <td>
+                @*<a href="#" class="modify" id="add"><i class="fa fa-plus-circle"></i> </a>
+                <a href="#" class="modify" id="remove" style="margin-right:5px;"><i class="fa fa-minus-circle"></i> </a>*@
+                @Html.ActionLink("Edit", "Edit", new { id = item.RecordId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.RecordId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.RecordId }) |
+                <a class="btn" href="#" id="deleteCart" name="deleteCart" style="padding-left:2px; padding-top:4px"><i class="fa fa-trash-o fa-lg"></i></a>
+            </td>
+        </tr>
+    }
 </table>
 <p>
     @Html.ActionLink("Vider le panier", "ClearAll")
 </p>
+@section scripts {
+<script src="~/Scripts/Site/Carts.js" type="text/javascript"></script>
+}

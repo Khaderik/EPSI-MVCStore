@@ -143,7 +143,7 @@ namespace MVCStoreApplication.Controllers
             else
             {
                 //...on le crée
-                monPanier = new Cart();     
+                monPanier = new Cart();
                 monPanier.CartId = "Khaderik";
                 monPanier.AlbumId = id;
                 monPanier.Count = 1;
@@ -160,6 +160,37 @@ namespace MVCStoreApplication.Controllers
             MesPaniers.ForEach(p => db.Carts.Remove(p));
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public ActionResult RemoveFromCart(int? id)
+        {
+            string message = "L'album a bien été supprimé du panier";
+            if (id == null)
+            {
+                message = "Aucune clé ne correspond à l'album";
+            }
+            //Recherche de la Ligne dans le panier
+            Cart cart = db.Carts.Where(c => c.CartId.Equals("Khaderik") && c.RecordId == id).SingleOrDefault();
+            if (cart == null)
+            {
+                message = "L'album n'est pas présent dans votre panier";
+            }
+            else
+            {
+                try
+                {
+                    // Suppression du panier
+                    db.Carts.Remove(cart);
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    message = "L'album n'a pas pu être supprimé : " + ex.Message;
+                    id = 0;
+                }
+            }
+
+            return Json(new { DeleteId = id, Message = message });
         }
 
         protected override void Dispose(bool disposing)
